@@ -5,7 +5,6 @@
 
 USE master;
 GO
-
 -- Check if the database exists
 IF EXISTS (
     SELECT 1
