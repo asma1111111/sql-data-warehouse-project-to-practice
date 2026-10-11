@@ -2,7 +2,6 @@
 -- WARNING: THIS SCRIPT DELETES THE EXISTING DATABASE
 -- If DataWarehouse exists, it will erase all tables and data
 -- and create a new, empty database.
-
 USE master;
 GO
 -- Check if the database exists
