@@ -1,0 +1,135 @@
+
+-- WARNING: This script Loads data from csv file to teh table that we created 
+-- The script purpose is to load raw data from CRM and ERP source files into the Bronze layer
+-- using BULK INSERT, while truncating existing table data before each load.
+-- It also displays loading progress and execution duration for each table,
+-- and handles errors that occur during the loading process.
+
+CREATE OR ALTER PROCEDURE bronze.load_bronze AS
+BEGIN
+	DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME; 
+	BEGIN TRY
+		SET @batch_start_time = GETDATE();
+		PRINT '-----------------------------------------------------------------------------------------'
+		PRINT '-----------------------------loading BRONZE tables---------------------------------------'
+		PRINT '-----------------------------------------------------------------------------------------'
+		SET @batch_start_time = GETDATE();
+		SET @end_time = GETDATE();
+		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+		PRINT '>> -------------';
+		SET @start_time = GETDATE();
+		PRINT '-----------------------------------------------------------------------------------------'
+		PRINT '--------------------------------loading CRM tables---------------------------------------'
+		PRINT '-----------------------------------------------------------------------------------------'
+		SET @end_time = GETDATE();
+		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+		PRINT '>> -------------';
+
+		SET @start_time = GETDATE();
+		PRINT '>> Truncating Table: bronze. crm_cust_info';
+		TRUNCATE TABLE bronze.crm_cust_info;
+		PRINT '>> Inserting Data Into: bronze.crm_cust_info';
+		BULK INSERT bronze.crm_cust_info
+		FROM 'C:\Users\Asma\Documents\datasets\source_crm\cust_info.csv'
+		WITH (
+		FIRSTROW =2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+		);
+		SET @end_time = GETDATE();
+		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+		PRINT '>> -------------';
+
+		SET @start_time = GETDATE();
+		PRINT '>> Truncating Table: bronze. crm_prd_info';
+		TRUNCATE TABLE bronze.crm_prd_info;
+		PRINT '>> Inserting Data Into: bronze.crm_prd_info';
+		BULK INSERT bronze.crm_prd_info
+		FROM 'C:\Users\Asma\Documents\datasets\source_crm\prd_info.csv'
+		WITH (
+		FIRSTROW =2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+		);
+		SET @end_time = GETDATE();
+		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+		PRINT '>> -------------';
+
+		SET @start_time = GETDATE();
+		PRINT '>> Truncating Table: bronze. crm_sales_details';
+		TRUNCATE TABLE bronze.crm_sales_details;
+		PRINT '>> Inserting Data Into: bronze.crm_sales_details';
+		BULK INSERT bronze.crm_sales_details
+		FROM 'C:\Users\Asma\Documents\datasets\source_crm\sales_details.csv'
+		WITH (
+		FIRSTROW =2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+		);
+		SET @end_time = GETDATE();
+		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+		PRINT '>> -------------';
+
+		SET @start_time = GETDATE();
+
+		PRINT '-----------------------------------------------------------------------------------------'
+		PRINT '--------------------------------loading ERP tables---------------------------------------'
+		PRINT '-----------------------------------------------------------------------------------------'
+
+		PRINT '>> Truncating Table: bronze. erp_cust_az12';
+		TRUNCATE TABLE bronze.erp_cust_az12;
+		PRINT '>> Inserting Data Into: bronze.erp_cust_az12';
+		BULK INSERT bronze.erp_cust_az12
+		FROM 'C:\Users\Asma\Documents\datasets\source_erp\CUST_AZ12.csv'
+		WITH (
+		FIRSTROW =2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+		);
+		SET @end_time = GETDATE();
+		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+		PRINT '>> -------------';
+
+		SET @start_time = GETDATE();
+		PRINT '>> Truncating Table: bronze. erp_loc_a101';
+		TRUNCATE TABLE bronze.erp_loc_a101;
+		PRINT '>> Inserting Data Into: bronze.erp_loc_a101';
+		BULK INSERT bronze.erp_loc_a101
+		FROM 'C:\Users\Asma\Documents\datasets\source_erp\loc_10.csv'
+		WITH (
+		FIRSTROW = 2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+		);
+		SET @end_time = GETDATE();
+		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+		PRINT '>> -------------';
+
+		SET @start_time = GETDATE();
+
+		PRINT '>> Truncating Table: bronze. erp_px_cat_g1v2';
+		TRUNCATE TABLE bronze.erp_px_cat_g1v2;
+		PRINT '>> Inserting Data Into: bronze.erp_px_cat_g1v2';
+		BULK INSERT bronze.erp_px_cat_g1v2
+		FROM 'C:\Users\Asma\Documents\datasets\source_erp\px_cat_g1v2.csv'
+		WITH (
+		FIRSTROW = 2,
+		FIELDTERMINATOR = ',',
+		TABLOCK
+		);
+		SET @end_time = GETDATE();
+		PRINT '>> Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds';
+		PRINT '>> -------------';
+
+		SET @start_time = GETDATE();
+		END TRY
+		BEGIN CATCH
+
+		PRINT '------------------------------------------------------'
+		PRINT 'ERROR OCCURED DURING LOADING BRONZE LAYER'
+		PRINT 'Error Message' + ERROR_MESSAGE();
+		PRINT 'Error Message' + ERROR_NUMBER();
+		PRINT '------------------------------------------------------'
+
+	END CATCH
+END
