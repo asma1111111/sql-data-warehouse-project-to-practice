@@ -1,3 +1,7 @@
+-- ============================================================
+-- PROCEDURE: silver.load_silver
+-- PURPOSE: Load and transform data from Bronze Layer to Silver Layer
+-- ============================================================
 CREATE OR ALTER PROCEDURE silver.load_silver AS
 BEGIN
 	 DECLARE @start_time DATETIME,
@@ -25,7 +29,7 @@ BEGIN
 			cst_key,
 			cst_firstname,
 			cst_lastname,
-			cst_material_status,
+			cst_marital_status,
 			cst_gndr,
 			cst_create_date
 		)
@@ -39,10 +43,10 @@ BEGIN
 		----------------------------------------------------------
 		--standarization of values from gendre and status cols
 		----------------------------------------------------------
-		CASE WHEN  UPPER(TRIM(cst_material_status)) = 'M' THEN 'Married'
-			 WHEN UPPER(TRIM(cst_material_status)) = 'S' THEN 'Single'
+		CASE WHEN  UPPER(TRIM(cst_marital_status)) = 'M' THEN 'Married'
+			 WHEN UPPER(TRIM(cst_marital_status)) = 'S' THEN 'Single'
 			 ELSE 'n/a'
-		END cst_material_status,
+		END cst_marital_status,
 
 		CASE WHEN  UPPER(TRIM(cst_gndr)) = 'F' THEN 'Female'
 			 WHEN UPPER(TRIM(cst_gndr)) = 'M' THEN 'Male'
@@ -199,12 +203,12 @@ BEGIN
 					id,
 					cat,
 					subcat,
-					intenance)
+					maintenance)
 		SELECT 
 		id,
 		cat,
 		subcat,
-		intenance
+		maintenance
 		FROM bronze.erp_px_cat_g1v2
 		SET @end_time = GETDATE();
 		PRINT'>> Load Duration : '+CAST(DATEDIFF(SECOND,@start_time,@end_time)AS NVARCHAR)+ 'seconds' 
