@@ -3,37 +3,28 @@ This project is an ETL learning and practice project focused on building a SQL S
 
 ### Architecture
 
-Bronze: Stores raw CRM and ERP data.
-
-Silver: Cleans, standardizes, and transforms data.
-
-Gold: Creates analytical dimensions and fact views using a Star Schema.
+    *Bronze:* Stores raw CRM and ERP data.
+    Silver: Cleans, standardizes, and transforms data.
+    Gold: Creates analytical dimensions and fact views using a Star Schema.
 
 ### Data Model
-
-gold.dim_customers – Customer information.
-
-gold.dim_products – Product and category information.
-
-gold.fact_sales – Sales transactions and measures.
+    gold.dim_customers – Customer information.
+    gold.dim_products – Product and category information.
+    gold.fact_sales – Sales transactions and measures.
 
 ### Technologies
 
-Microsoft SQL Server
-SQL Server Management Studio (SSMS)
-Draw.io
+    Microsoft SQL Server
+    SQL Server Management Studio (SSMS)
+    Draw.io
 
 ### Key Concepts
 
-ETL pipeline development.
-
-Data cleaning and transformation.
-
-Data quality and validation.
-
-CRM and ERP data integration.
-
-Dimensional modeling and Star Schema.
+    ETL pipeline development.
+    Data cleaning and transformation.
+    Data quality and validation.
+    CRM and ERP data integration.
+    Dimensional modeling and Star Schema.
 
 ### Workflow
 
