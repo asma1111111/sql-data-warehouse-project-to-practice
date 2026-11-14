@@ -9,8 +9,10 @@ This project is an ETL learning and practice project focused on building a SQL S
 
 ### Data Model
    **gold.dim_customers** – Customer information.
+   
    **gold.dim_products** – Product and category information.
-    **gold.fact_sales** – Sales transactions and measures.
+   
+   **gold.fact_sales** – Sales transactions and measures.
 
 ### Technologies
 
