@@ -8,9 +8,9 @@ This project is an ETL learning and practice project focused on building a SQL S
    Gold: Creates analytical dimensions and fact views using a Star Schema.
 
 ### Data Model
-   *gold.dim_customers* – Customer information.
-   *gold.dim_products* – Product and category information.
-    *gold.fact_sales* – Sales transactions and measures.
+   **gold.dim_customers** – Customer information.
+   **gold.dim_products** – Product and category information.
+    **gold.fact_sales** – Sales transactions and measures.
 
 ### Technologies
 
